@@ -60,24 +60,32 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Image.asset('assets/images/logo.png', fit: BoxFit.contain, height: 42,),
         actions: <Widget>[
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {},
-            child: Text("TV Shows"),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-          ),
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {},
-            child: Text("Movies"),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-          ),
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {},
-            child: Text("My List"),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-          ),
+          Padding(
+          padding: EdgeInsets.only(right: 60),
+          child: Row(
+            children: <Widget>[
+              FlatButton(
+                textColor: Colors.white,
+                onPressed: () {},
+                child: Text("TV Shows"),
+                shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+              ),
+              FlatButton(
+                textColor: Colors.white,
+                onPressed: () {},
+                child: Text("Movies"),
+                shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+              ),
+              FlatButton(
+                textColor: Colors.white,
+                onPressed: () {},
+                child: Text("My List"),
+                shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+              ),
+            ],
+          )
+      )
+
         ],
       ),
       body: Center(
