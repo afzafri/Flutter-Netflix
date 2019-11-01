@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 10, top: 8),
+            padding: const EdgeInsets.only(left: 10, top: 10),
             child: Text("Popular on Netflix", textAlign: TextAlign.left,),
           ),
           Expanded(
@@ -106,35 +106,156 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(6),
                     child: Container(
                         width: 160.0,
-                        color: Colors.red,
+//                      color: Colors.red,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/popular1.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: Container(
                         width: 160.0,
-                        color: Colors.blue,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/popular2.png',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: Container(
                         width: 160.0,
-                        color: Colors.blue,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/popular3.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: Container(
                         width: 160.0,
-                        color: Colors.blue,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/popular4.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: Container(
                         width: 160.0,
-                        color: Colors.blue,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/popular5.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text("Trending Now", textAlign: TextAlign.left,),
+          ),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 8, bottom: 14, left: 6, right: 6),
+              height: 200.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                        width: 160.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/trending1.jpeg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                        width: 160.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/trending2.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                        width: 160.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/trending3.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                        width: 160.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/trending4.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                        width: 160.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/trending5.jpg',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        )
                     ),
                   ),
                 ],
