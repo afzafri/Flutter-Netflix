@@ -2,6 +2,10 @@
 
 Dummy Netflix copycat
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/14824387/68017995-faa59c80-fcd2-11e9-8296-5b082a9f1f6e.jpg" width="350" title="Flutter Netflix Screenshot">
+</p>
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
