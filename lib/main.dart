@@ -83,6 +83,38 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      bottomNavigationBar: new BottomNavigationBar(
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.home),
+              title: new Text('Home', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.search),
+              title: new Text('Search', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.play_circle_outline),
+              title: new Text('Coming Soon', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.system_update_alt),
+              title: new Text('Downloads', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.reorder),
+              title: new Text('More', style: TextStyle(fontSize: 12)),
+            )
+          ]
+
+      ),
     );
   }
 }
