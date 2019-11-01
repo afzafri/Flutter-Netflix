@@ -46,6 +46,34 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  showAlertDialog(BuildContext context, String name) {
+
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Details"),
+      content: Text("Title: "+name),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -104,73 +132,87 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(6),
+                    child: InkWell(
+                    onTap: () => showAlertDialog(context, "Nowhere Man"), // handle your onTap here
                     child: Container(
-                        width: 160.0,
-//                      color: Colors.red,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/popular1.jpg',
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/popular1.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/popular2.png',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "Black Panther"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/popular2.png',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/popular3.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "Stranger Things"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/popular3.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/popular4.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "Daybreak"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/popular4.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/popular5.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "Fractured"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/popular5.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                 ],
@@ -190,72 +232,87 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/trending1.jpeg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "Sex Education"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/trending1.jpeg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/trending2.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "The Big Bang Theory"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/trending2.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/trending3.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "How I Met Your Mother"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/trending3.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/trending4.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "Lucifer"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/trending4.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Container(
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/trending5.jpg',
+                    child: InkWell(
+                      onTap: () => showAlertDialog(context, "The Dark Knight Rises"), // handle your onTap here
+                      child: Container(
+                          width: 160.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/trending5.jpg',
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                          )
+                      ),
                     ),
                   ),
                 ],
