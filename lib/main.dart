@@ -1,4 +1,37 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+String apikey = "6b4bc94b61f4f4d1408aee6964223acf";
+
+class API {
+  static Future getMovies(String category) {
+    var url = 'https://api.themoviedb.org/3/movie/'+category+'?api_key='+apikey+'&language=en-US&page=1';
+    return http.get(url);
+  }
+}
+
+class Movie {
+  int id;
+  String title;
+  String posterUrl;
+
+  Movie(int id, String title, String posterUrl) {
+    this.id = id;
+    this.title = title;
+    this.posterUrl = posterUrl;
+  }
+
+  Movie.fromJson(Map json)
+      : id = json['id'],
+        title = json['original_title'],
+        posterUrl = "https://image.tmdb.org/t/p/w500/"+json['poster_path'];
+
+  Map toJson() {
+    return {'id': id, 'title': title, 'posterUrl': posterUrl};
+  }
+}
 
 void main() => runApp(MyApp());
 
@@ -46,6 +79,47 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  var popularMovies = new List<Movie>();
+  var trendingMovies = new List<Movie>();
+  var nowPlayingMovies = new List<Movie>();
+
+  _getPopular() {
+    API.getMovies('popular').then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)['results'];
+        popularMovies = list.map((model) => Movie.fromJson(model)).toList();
+      });
+    });
+  }
+
+  _getTrending() {
+    API.getMovies('top_rated').then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)['results'];
+        trendingMovies = list.map((model) => Movie.fromJson(model)).toList();
+      });
+    });
+  }
+    _getNowPlaying() {
+      API.getMovies('now_playing').then((response) {
+        setState(() {
+          Iterable list = json.decode(response.body)['results'];
+          nowPlayingMovies = list.map((model) => Movie.fromJson(model)).toList();
+        });
+      });
+  }
+
+  initState() {
+    super.initState();
+    _getPopular();
+    _getTrending();
+    _getNowPlaying();
+  }
+
+  dispose() {
+    super.dispose();
+  }
+
   showAlertDialog(BuildContext context, String name) {
 
     // set up the button
@@ -82,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -130,91 +205,24 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
+
+                for (int i = 0; i < popularMovies.length; i++)
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: InkWell(
-                    onTap: () => showAlertDialog(context, "Nowhere Man"), // handle your onTap here
+                    onTap: () => showAlertDialog(context, popularMovies[i].title), // handle your onTap here
                     child: Container(
-                          width: 160.0,
+                          width: 100.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/popular1.jpg',
-                              ),
+                              image: new NetworkImage(popularMovies[i].posterUrl),
                               fit: BoxFit.fill,
                             ),
                           )
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "Black Panther"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/popular2.png',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "Stranger Things"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/popular3.jpg',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "Daybreak"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/popular4.jpg',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "Fractured"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/popular5.jpg',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
             ),
@@ -230,91 +238,57 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "Sex Education"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/trending1.jpeg',
+
+                  for (int i = 0; i < trendingMovies.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: InkWell(
+                        onTap: () => showAlertDialog(context, trendingMovies[i].title), // handle your onTap here
+                        child: Container(
+                            width: 100.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: new NetworkImage(trendingMovies[i].posterUrl),
+                                fit: BoxFit.fill,
                               ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
+                            )
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "The Big Bang Theory"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/trending2.jpg',
+
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text("Available Now", textAlign: TextAlign.left,),
+          ),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 8, bottom: 14, left: 6, right: 6),
+              height: 200.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+
+                  for (int i = 0; i < nowPlayingMovies.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: InkWell(
+                        onTap: () => showAlertDialog(context, nowPlayingMovies[i].title), // handle your onTap here
+                        child: Container(
+                            width: 100.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: new NetworkImage(nowPlayingMovies[i].posterUrl),
+                                fit: BoxFit.fill,
                               ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
+                            )
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "How I Met Your Mother"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/trending3.jpg',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "Lucifer"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/trending4.jpg',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () => showAlertDialog(context, "The Dark Knight Rises"), // handle your onTap here
-                      child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/trending5.jpg',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
             ),
