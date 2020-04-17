@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 String apikey = "6b4bc94b61f4f4d1408aee6964223acf";
 
@@ -16,20 +17,32 @@ class Movie {
   int id;
   String title;
   String posterUrl;
+  String overview;
+  bool adult;
+  String year;
+  String voteAverage;
 
-  Movie(int id, String title, String posterUrl) {
+  Movie(int id, String title, String posterUrl, String overview, bool adult, String year, String voteAverage) {
     this.id = id;
     this.title = title;
     this.posterUrl = posterUrl;
+    this.overview = overview;
+    this.adult = adult;
+    this.year = year;
+    this.voteAverage = voteAverage;
   }
 
   Movie.fromJson(Map json)
       : id = json['id'],
         title = json['original_title'],
-        posterUrl = "https://image.tmdb.org/t/p/w500/"+json['poster_path'];
+        posterUrl = "https://image.tmdb.org/t/p/w500/"+json['poster_path'],
+        overview = json['overview'],
+        adult = json['adult'],
+        year = DateFormat("yyyy").format(DateTime.parse(json['release_date'])),
+        voteAverage = (json['vote_average']).toString();
 
   Map toJson() {
-    return {'id': id, 'title': title, 'posterUrl': posterUrl};
+    return {'id': id, 'title': title, 'posterUrl': posterUrl, 'overview': overview, 'adult': adult, 'year': year, 'voteAverage': voteAverage};
   }
 }
 
@@ -210,7 +223,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: InkWell(
-                    onTap: () => showAlertDialog(context, popularMovies[i].title), // handle your onTap here
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MovieDetail(popularMovies[i])),
+                    ), // handle your onTap here
                     child: Container(
                           width: 100.0,
                           decoration: BoxDecoration(
@@ -243,7 +259,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.all(6),
                       child: InkWell(
-                        onTap: () => showAlertDialog(context, trendingMovies[i].title), // handle your onTap here
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MovieDetail(trendingMovies[i])),
+                        ), // handle your onTap here
                         child: Container(
                             width: 100.0,
                             decoration: BoxDecoration(
@@ -276,7 +295,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.all(6),
                       child: InkWell(
-                        onTap: () => showAlertDialog(context, nowPlayingMovies[i].title), // handle your onTap here
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MovieDetail(nowPlayingMovies[i])),
+                        ), // handle your onTap here // handle your onTap here
                         child: Container(
                             width: 100.0,
                             decoration: BoxDecoration(
@@ -293,6 +315,219 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+        ],
+      ),
+      bottomNavigationBar: new BottomNavigationBar(
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.home),
+              title: new Text('Home', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.search),
+              title: new Text('Search', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.play_circle_outline),
+              title: new Text('Coming Soon', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.system_update_alt),
+              title: new Text('Downloads', style: TextStyle(fontSize: 12)),
+            ),
+
+            new BottomNavigationBarItem(
+              icon:Icon(Icons.reorder),
+              title: new Text('More', style: TextStyle(fontSize: 12)),
+            )
+          ]
+
+      ),
+    );
+  }
+}
+
+class MovieDetail extends StatelessWidget {
+  Movie movie;
+
+  MovieDetail(Movie movie) {
+    this.movie = movie;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                children: <Widget>[
+                  ClipOval(
+                    child: Material(
+                      color: Colors.black12, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(width: 25, height: 25, child: Icon(Icons.clear)),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              )
+          )
+
+        ],
+      ),
+
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Center(
+            child: Container(
+                height: 200.0,
+                width: 130.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: new NetworkImage(movie.posterUrl),
+                    fit: BoxFit.fill,
+                  ),
+                )
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        movie.voteAverage,
+                        style: TextStyle(fontSize: 15.0, color: Colors.green),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        movie.year,
+                        style: TextStyle(fontSize: 15.0, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                  ),
+                  new Container(
+                    padding: const EdgeInsets.all(1.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                      borderRadius: new BorderRadius.circular(3.0),
+                    ),
+                    child: Text(
+                      'HD',
+                      style: TextStyle(fontSize: 12.0, color: Colors.grey),
+                    ),
+                  ),
+                ],
+              )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+          ),
+          Container (
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            width: double.infinity,
+            child: RaisedButton.icon(
+              onPressed: () {},
+              elevation: 2.0,
+              color: const Color(0xFFE50914),
+              icon: Icon(Icons.play_arrow),
+              label: Text("Play",
+                style: TextStyle(fontSize: 15.0),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12, left: 10),
+            child: Text(movie.overview, textAlign: TextAlign.left,),
+          ),
+          Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.add),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                      ),
+                      Text(
+                          'My List',
+                           style: TextStyle(fontSize: 10.0, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.thumb_up),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                      ),
+                      Text(
+                          'Rate',
+                           style: TextStyle(fontSize: 10.0, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.share),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                      ),
+                      Text(
+                          'Share',
+                           style: TextStyle(fontSize: 10.0, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.file_download),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                      ),
+                      Text(
+                        'Download',
+                        style: TextStyle(fontSize: 10.0, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          )
         ],
       ),
       bottomNavigationBar: new BottomNavigationBar(
