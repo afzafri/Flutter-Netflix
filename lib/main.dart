@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.white,
       ),
       home: MyHomePage(title: 'Flutter Netflix'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
