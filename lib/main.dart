@@ -39,7 +39,7 @@ class Movie {
         overview = json['overview'],
         adult = json['adult'],
         year = DateFormat("yyyy").format(DateTime.parse(json['release_date'])),
-        voteAverage = (json['vote_average']).toString();
+        voteAverage = double.parse(json['vote_average'].toStringAsFixed(1)).toString();
 
   Map toJson() {
     return {'id': id, 'title': title, 'posterUrl': posterUrl, 'overview': overview, 'adult': adult, 'year': year, 'voteAverage': voteAverage};
@@ -88,6 +88,45 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+}
+
+class bottomNavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new BottomNavigationBar(
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          new BottomNavigationBarItem(
+            icon:Icon(Icons.home),
+            title: new Text('Home', style: TextStyle(fontSize: 12)),
+          ),
+
+          new BottomNavigationBarItem(
+            icon:Icon(Icons.search),
+            title: new Text('Search', style: TextStyle(fontSize: 12)),
+          ),
+
+          new BottomNavigationBarItem(
+            icon:Icon(Icons.play_circle_outline),
+            title: new Text('Coming Soon', style: TextStyle(fontSize: 12)),
+          ),
+
+          new BottomNavigationBarItem(
+            icon:Icon(Icons.system_update_alt),
+            title: new Text('Downloads', style: TextStyle(fontSize: 12)),
+          ),
+
+          new BottomNavigationBarItem(
+            icon:Icon(Icons.reorder),
+            title: new Text('More', style: TextStyle(fontSize: 12)),
+          )
+        ]
+
+    );
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -161,6 +200,41 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  displayMovieList(List<Movie> movies) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(top: 8, bottom: 14, left: 6, right: 6),
+        height: 200.0,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: <Widget>[
+
+            for (int i = 0; i < movies.length; i++)
+              Padding(
+                padding: const EdgeInsets.all(6),
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MovieDetail(movies[i])),
+                  ), // handle your onTap here
+                  child: Container(
+                      width: 100.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: new NetworkImage(movies[i].posterUrl),
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                  ),
+                ),
+              ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -211,144 +285,20 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: Text("Popular on Netflix", textAlign: TextAlign.left,),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 8, bottom: 14, left: 6, right: 6),
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-
-                for (int i = 0; i < popularMovies.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MovieDetail(popularMovies[i])),
-                    ), // handle your onTap here
-                    child: Container(
-                          width: 100.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: new NetworkImage(popularMovies[i].posterUrl),
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-          ),
+          displayMovieList(popularMovies),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Text("Trending Now", textAlign: TextAlign.left,),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 8, bottom: 14, left: 6, right: 6),
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-
-                  for (int i = 0; i < trendingMovies.length; i++)
-                    Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: InkWell(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MovieDetail(trendingMovies[i])),
-                        ), // handle your onTap here
-                        child: Container(
-                            width: 100.0,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: new NetworkImage(trendingMovies[i].posterUrl),
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                        ),
-                      ),
-                    ),
-
-                ],
-              ),
-            ),
-          ),
+          displayMovieList(trendingMovies),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Text("Available Now", textAlign: TextAlign.left,),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 8, bottom: 14, left: 6, right: 6),
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-
-                  for (int i = 0; i < nowPlayingMovies.length; i++)
-                    Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: InkWell(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MovieDetail(nowPlayingMovies[i])),
-                        ), // handle your onTap here // handle your onTap here
-                        child: Container(
-                            width: 100.0,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: new NetworkImage(nowPlayingMovies[i].posterUrl),
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                        ),
-                      ),
-                    ),
-
-                ],
-              ),
-            ),
-          ),
+          displayMovieList(nowPlayingMovies),
         ],
       ),
-      bottomNavigationBar: new BottomNavigationBar(
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.home),
-              title: new Text('Home', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.search),
-              title: new Text('Search', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.play_circle_outline),
-              title: new Text('Coming Soon', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.system_update_alt),
-              title: new Text('Downloads', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.reorder),
-              title: new Text('More', style: TextStyle(fontSize: 12)),
-            )
-          ]
-
-      ),
+      bottomNavigationBar: bottomNavBar()
     );
   }
 }
@@ -530,38 +480,7 @@ class MovieDetail extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: new BottomNavigationBar(
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.home),
-              title: new Text('Home', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.search),
-              title: new Text('Search', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.play_circle_outline),
-              title: new Text('Coming Soon', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.system_update_alt),
-              title: new Text('Downloads', style: TextStyle(fontSize: 12)),
-            ),
-
-            new BottomNavigationBarItem(
-              icon:Icon(Icons.reorder),
-              title: new Text('More', style: TextStyle(fontSize: 12)),
-            )
-          ]
-
-      ),
+      bottomNavigationBar: bottomNavBar()
     );
   }
 }
